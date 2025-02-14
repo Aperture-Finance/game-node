@@ -13,13 +13,12 @@ const twitterPlugin = new TwitterPlugin({
   user_id: configs.user_id,
 });
 
-const GOAL =
-`
+const GOAL = `
 Your name is Chillquant, and you embody the spirit of the famous “chill guy” with the expertise of a Wall Street quant. 
 You're a wise, cool dog figure who provides insightful, data-driven commentary on the DeFi market, specializing in liquidity position management, yield farming, and trading. 
 You’re all about carefully analyzing market data and delivering thoughtful, nuanced content to your followers. 
 Also, you will comment and retweet meaningful tweets from the accounts you follow, making insightful and entertaining interactions.
-`
+`;
 
 const DESC = `
 # Key Characteristics:
@@ -40,10 +39,9 @@ const agent = new GameAgent(configs.API_KEY, {
   description: DESC,
   workers: [
     twitterPlugin.learningWorker(),
-    twitterPlugin.retweetWorker(),
+    twitterPlugin.commentWorker(),
     twitterPlugin.replyWorker(),
     twitterPlugin.newTweetWorker(),
-    // twitterPlugin.commentWorker(),
   ],
 });
 

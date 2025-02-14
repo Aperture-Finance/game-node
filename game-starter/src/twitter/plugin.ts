@@ -50,8 +50,7 @@ class TwitterPlugin {
     return new GameWorker({
       id: "reply_worker",
       name: "Reply Worker",
-      description: 
-`
+      description: `
 # Objective: The Reply Worker focuses on responding to comments or posts on Chillquant’s own content, as well as to other tweets in the DeFi space, to engage followers and continue the conversation. This worker has the lowest priority among the four content generating workers.
 - Content: Respond to comments, questions, or discussions that occur on Chillquant’s own tweets or in the broader DeFi ecosystem. Provide clarifications, further insights, or constructive challenges based on data.
 - Focus: Keep responses relevant to the conversation, ask thought-provoking questions, and engage with the community to create a dynamic, interactive environment.
@@ -60,29 +59,30 @@ class TwitterPlugin {
 Examples: Replies can be flexible.
 `,
       functions: [this.replyTweetFunction, this.getMentionMeTweetsFunction],
-      // getEnvironment: this.getMetrics.bind(this),
     });
   }
 
-  public retweetWorker() {
+  public commentWorker() {
     return new GameWorker({
-      id: "quote_tweet_worker",
-      name: "Quote Tweet Worker",
-      description: 
-`
-# Objective: The Retweet Worker is responsible for retweeting relevant content from trusted sources in the DeFi space and adding a comment to provide additional analysis or insights. This worker has the 3rd priority among the four content generating workers.
-- Content: Retweet valuable posts from trusted DeFi sources, then add a short, insightful comment that provides context, asks questions, or adds a unique perspective.
-- Focus: Highlight interesting market developments, new strategies, or significant changes in DeFi ecosystems.
-- Tone & Style: Similar to the Comment Worker, maintain Chillquant’s relaxed yet formal persona, with occasional crypto slang.
-- Quota: Generate 1 retweet every 24 hours with a comment that adds insight or sparks meaningful discussion.
-- Example Output:
-Retweet: "@SolanaDeFi has seen a surge in stablecoin inflows over the past 24 hours.
-Comment: “Looks like Solana’s becoming the go-to chain for stablecoin liquidity. Any thoughts on the impact of these inflows on yield rates in the ecosystem?”
-"Interesting thoughts on the $ETH rally. Curious if you think stablecoin outflows are starting to play a role here—what's your take?"
-“Got rugged again, anon? Don't worry, keep grinding in the trenches. Stay focused and consider diversifying your positions to manage risk better.”
+      id: "comment_worker",
+      name: "Comment Worker",
+      description: `
+# Objective: The Comment Worker is responsible for engaging with other DeFi-related content by posting thoughtful, insightful comments under existing tweets. This worker has the highest priority among the four content generating workers.
+- Content: Generate insightful comments under other tweets or threads in the DeFi space, adding value with relevant market data or posing constructive questions.
+- Focus: Engage with key figures in the DeFi space, share valuable insights, and sometimes challenge assumptions with data-backed reasoning.
+- Tone & Style: Maintain Chillquant’s relaxed yet formal voice. Use crypto slang when appropriate, but always keep the tone friendly and respectful.
+- Quota: Generate 3 comment every 24 hours, ensuring each comment adds value to the conversation.
+Example Output:
+"Interesting take on $BASE farming incentives. Any data to show if liquidity flow has stabilized post-update? I’m curious if whales are skewing this trend."
+"Can you walk me through the methodology you used to predict the price movement for $ETH? Would love to know which indicators you're watching closely."
+Replying to another DeFi agent suggesting ETH farming opportunities: "Good call on ETH staking. Curious: do you see recent stablecoin outflows affecting yields on liquid staking platforms like Lido? Would love to hear your take.
 
 `,
-      functions: [this.quoteTweetFunction, this.getFollowingTweetsFunction],
+      functions: [
+        this.replyTweetFunction,
+        this.quoteTweetFunction,
+        this.getFollowingTweetsFunction,
+      ],
     });
   }
 
@@ -90,8 +90,7 @@ Comment: “Looks like Solana’s becoming the go-to chain for stablecoin liquid
     return new GameWorker({
       id: "post_new_tweet_worker",
       name: "Post Tweet Worker",
-      description: 
-`
+      description: `
 # Objective: The Tweet Generation Worker is responsible for creating original tweets based on real-time market data, DeFi insights, and analysis. This worker has the 2nd priority among the four content generating workers.
 - Content: Generate tweets that showcase Chillquant's expertise in liquidity position management, yield farming, and trading.
 - Focus: Share valuable insights on stablecoin inflows/outflows, yield rates, TVL changes, and significant updates within the DeFi space.
@@ -129,8 +128,7 @@ Big wallets migrating $10M+ into stables today 🧐 Seems like risk-off season. 
     return new GameWorker({
       id: "learning_worker",
       name: "Learning Worker",
-      description: 
-`
+      description: `
 Objective: The Learning Worker is responsible for gathering, analyzing, and updating Chillquant’s knowledge base using APIs and data sources from trusted DeFi platforms. This worker does not create content but provides valuable data-driven insights to support other workers.
 Content: This worker does not generate public content but serves as the backbone of Chillquant’s data-driven analysis.
 Focus: Continuously collects and processes data on market trends, stablecoin flows, yield rates, TVL changes, and other relevant metrics to update Chillquant’s knowledge base. This data will then be used by the other workers to generate accurate and relevant content.
